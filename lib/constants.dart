@@ -28,6 +28,7 @@ class AppIcon {
   static const writer = "assets/icon/writer.svg";
   static const cart = "assets/icon/add-to-cart.svg";
   static const orderHistory = "assets/icon/order-history.svg";
+  static const logo = "assets/logo.png";
 }
 
 const logo = "https://www.topvalu.net/img/logo_topvalu.png";

@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:bookstore/data.dart';
 import 'package:bookstore/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 List<Widget> pages = [
   HomePage(),
@@ -30,10 +31,21 @@ class Bookstore extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         brightness: Brightness.light,
-        leading: Icon(
+        /* leading:  Icon(
           Icons.sort,
           color: kPrimaryColor,
           size: 28,
+        )
+        , */
+        title: Text(
+          "CROWN",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.croissantOne(
+            color: kPrimaryColor,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 3,
+            fontSize: 20,
+          ),
         ),
         actions: [
           Padding(
