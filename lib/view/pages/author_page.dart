@@ -65,20 +65,24 @@ class AuthorPage extends StatelessWidget {
                       itemCount: authors.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
-                        childAspectRatio: 10 / 14,
+                        childAspectRatio: 10 / 16,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 10,
                       ),
                       itemBuilder: (context, index) {
                         final author = authors[index];
                         return InkWell(
-                          onTap: () => Get.toNamed(authorDetailPage,
-                              arguments: {"author": author}),
+                          onTap: () {
+                            Get.toNamed(authorDetailPage,
+                                arguments: {"author": author});
+                            homeController.changeAuthorBooks(author.id);
+                          },
                           child: Container(
                             child: Column(
                               children: [
                                 //Image
                                 Expanded(
+                                  flex: 3,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       boxShadow: [
@@ -90,56 +94,42 @@ class AuthorPage extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    child: Image.asset(
-                                      author.image,
+                                    child: CachedNetworkImage(
+                                      progressIndicatorBuilder:
+                                          (context, url, status) {
+                                        return Shimmer.fromColors(
+                                          child: Container(
+                                            color: Colors.white,
+                                          ),
+                                          baseColor: Colors.grey.shade300,
+                                          highlightColor: Colors.white,
+                                        );
+                                      },
+                                      errorWidget: (context, url, whatever) {
+                                        return const Text(
+                                            "Image not available");
+                                      },
+                                      imageUrl: author.image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                                /*  CachedNetworkImage(
-                                  progressIndicatorBuilder:
-                                      (context, url, status) {
-                                    return Shimmer.fromColors(
-                                      child: Container(
-                                        color: Colors.white,
-                                      ),
-                                      baseColor: Colors.grey.shade300,
-                                      highlightColor: Colors.white,
-                                    );
-                                  },
-                                  errorWidget: (context, url, whatever) {
-                                    return const Text("Image not available");
-                                  },
-                                  /* imageBuilder: (context, imageProvider) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(
-                                              10,
-                                            ),
-                                          )),
-                                    );
-                                  }, */
-                                  imageUrl: author.image,
-                                  fit: BoxFit.contain,
-                                ),
-                                 */
+
                                 const SizedBox(
                                   height: 5,
                                 ),
                                 //Name
-                                Text(
-                                  author.fullname,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: GoogleFonts.catamaran(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    author.fullname,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: GoogleFonts.catamaran(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],

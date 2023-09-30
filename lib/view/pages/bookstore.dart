@@ -1,3 +1,4 @@
+import 'package:bookstore/controller/cart_controller.dart';
 import 'package:bookstore/controller/data_controller.dart';
 import 'package:bookstore/router/route_name.dart';
 import 'package:bookstore/view/pages/author_page.dart';
@@ -85,15 +86,43 @@ class Bookstore extends StatelessWidget {
           final navIndex = dataController.bottomNavIndex.value;
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(
-                navItems.length,
-                (index) => buildNavigationItem(
-                    item: navItems[index],
-                    index: index,
-                    selectedIndex: navIndex,
-                    onTap: () {
-                      dataController.changeBottomNavIndex(index);
-                    })),
+            children: [
+              buildNavigationItem(
+                  item: navItems[0],
+                  index: 0,
+                  selectedIndex: navIndex,
+                  onTap: () {
+                    dataController.changeBottomNavIndex(0);
+                  }),
+              buildNavigationItem(
+                  item: navItems[1],
+                  index: 1,
+                  selectedIndex: navIndex,
+                  onTap: () {
+                    dataController.changeBottomNavIndex(1);
+                  }),
+              buildNavigationItem(
+                  item: navItems[2],
+                  index: 2,
+                  selectedIndex: navIndex,
+                  onTap: () {
+                    dataController.changeBottomNavIndex(2);
+                  }),
+              stackBuildNavigationItem(
+                  item: navItems[3],
+                  index: 3,
+                  selectedIndex: navIndex,
+                  onTap: () {
+                    dataController.changeBottomNavIndex(3);
+                  }),
+              buildNavigationItem(
+                  item: navItems[4],
+                  index: 4,
+                  selectedIndex: navIndex,
+                  onTap: () {
+                    dataController.changeBottomNavIndex(4);
+                  })
+            ],
           );
         }),
       ),
@@ -120,4 +149,49 @@ class Bookstore extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget stackBuildNavigationItem(
+    {required NavigationItem item,
+    required int index,
+    required int selectedIndex,
+    void Function()? onTap}) {
+  final CartController controller = Get.find();
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      width: 50,
+      child: Stack(
+        children: [
+          Obx(() {
+            final count = controller.myCart.length;
+            return Positioned(
+              right: 0,
+              top: 10,
+              child: CircleAvatar(
+                radius: 10,
+                backgroundColor:
+                    selectedIndex == index ? kPrimaryColor : Colors.grey[400],
+                child: Text(
+                  "$count",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            );
+          }),
+          Center(
+            child: SvgPicture.asset(
+              item.imagePath,
+              color: selectedIndex == index ? kPrimaryColor : Colors.grey[400],
+              width: 28,
+              height: 28,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

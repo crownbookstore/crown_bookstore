@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../../utils/debouncer.dart';
 
 class SearchController extends GetxController {
+  final HomeController homeController = Get.find();
   RxList<Book> searchResults = <Book>[].obs;
   Debouncer debouncer = Debouncer(milliseconds: 800);
   Rxn<SearchType> selectedSearchType = Rxn<SearchType>(searchTypes.first);
@@ -15,17 +16,17 @@ class SearchController extends GetxController {
   void startSearch(String value) {
     switch (selectedSearchType.value!.type) {
       case SearchingType.bookTitle:
-        searchResults.value = booksUi
+        searchResults.value = homeController.books
             .where((e) => makeStringList(e.title).contains(value))
             .toList();
         break;
       case SearchingType.categoryName:
-        searchResults.value = booksUi
+        searchResults.value = homeController.books
             .where((e) => makeStringList(e.categoryName ?? "").contains(value))
             .toList();
         break;
       case SearchingType.authorName:
-        searchResults.value = booksUi
+        searchResults.value = homeController.books
             .where((e) => makeStringList(e.authorName ?? "").contains(value))
             .toList();
         break;

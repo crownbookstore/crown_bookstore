@@ -72,8 +72,11 @@ class CategoryPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final category = categories[index];
                         return InkWell(
-                          onTap: () => Get.toNamed(categoryDetailPage,
-                              arguments: {"category": category}),
+                          onTap: () {
+                            Get.toNamed(categoryDetailPage,
+                                arguments: {"category": category});
+                            homeController.changeCategoryBooks(category.id);
+                          },
                           child: Container(
                             child: Column(
                               children: [
@@ -120,7 +123,7 @@ class CategoryPage extends StatelessWidget {
                                         );
                                       }, */
                                       imageUrl: category.image,
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),

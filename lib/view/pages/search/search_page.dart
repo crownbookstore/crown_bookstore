@@ -1,10 +1,12 @@
 import 'package:bookstore/constants.dart';
 import 'package:bookstore/view/pages/home_page.dart';
 import 'package:bookstore/view/pages/search/controller/search_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends GetView<SearchController> {
   const SearchPage({Key? key}) : super(key: key);
@@ -132,7 +134,7 @@ class SearchPage extends GetView<SearchController> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.6,
-                        crossAxisSpacing: 0,
+                        crossAxisSpacing: 10,
                         mainAxisSpacing: 15,
                       ),
                       itemBuilder: (context, index) {
@@ -144,22 +146,37 @@ class SearchPage extends GetView<SearchController> {
                               children: [
                                 //Image
                                 Expanded(
+                                    flex: 12,
                                     child: Container(
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 8,
-                                        blurRadius: 12,
-                                        offset: Offset(0, 3),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 0,
+                                            blurRadius: 8,
+                                            offset: Offset(0, 3),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: Image.asset(
-                                    book.image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ) /* CachedNetworkImage(
+                                      child: CachedNetworkImage(
+                                        progressIndicatorBuilder:
+                                            (context, url, status) {
+                                          return Shimmer.fromColors(
+                                            child: Container(
+                                              color: Colors.white,
+                                            ),
+                                            baseColor: Colors.grey.shade300,
+                                            highlightColor: Colors.white,
+                                          );
+                                        },
+                                        errorWidget: (context, url, whatever) {
+                                          return const Text(
+                                              "Image not available");
+                                        },
+                                        imageUrl: book.image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ) /* CachedNetworkImage(
                                             progressIndicatorBuilder:
                                                 (context, url, status) {
                                               return Shimmer.fromColors(
@@ -183,27 +200,33 @@ class SearchPage extends GetView<SearchController> {
                                   height: 5,
                                 ),
                                 //Name
-                                Text(
-                                  book.title,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: GoogleFonts.catamaran(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    book.title,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: GoogleFonts.catamaran(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text(
-                                  "${book.price} MMK",
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: GoogleFonts.catamaran(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    "${book.price} MMK",
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: GoogleFonts.catamaran(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],

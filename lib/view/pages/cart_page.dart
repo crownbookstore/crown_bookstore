@@ -68,8 +68,8 @@ class CartPage extends StatelessWidget {
                                     bottomLeft: Radius.circular(10),
                                   ),
                                   child: /*FIXME: CachedNetworkImage */
-                                      Image.asset(
-                                    /* imageUrl: */ product.image,
+                                      CachedNetworkImage(
+                                    imageUrl: product.image,
                                     // "$baseUrl$itemUrl${controller.getItem(product.id).photo}/get",
                                     width: 100,
                                     height: 100,

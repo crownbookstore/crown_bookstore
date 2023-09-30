@@ -26,8 +26,8 @@ mixin _$Book {
   String get image => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
   double? get score => throw _privateConstructorUsedError;
-  String? get authorID => throw _privateConstructorUsedError;
-  String? get categoryID => throw _privateConstructorUsedError;
+  String? get authorId => throw _privateConstructorUsedError;
+  String? get categoryId => throw _privateConstructorUsedError;
   String? get authorName => throw _privateConstructorUsedError;
   String? get authorImage => throw _privateConstructorUsedError;
   String? get categoryName => throw _privateConstructorUsedError;
@@ -52,8 +52,8 @@ abstract class $BookCopyWith<$Res> {
       String image,
       int price,
       double? score,
-      String? authorID,
-      String? categoryID,
+      String? authorId,
+      String? categoryId,
       String? authorName,
       String? authorImage,
       String? categoryName,
@@ -80,8 +80,8 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
     Object? image = null,
     Object? price = null,
     Object? score = freezed,
-    Object? authorID = freezed,
-    Object? categoryID = freezed,
+    Object? authorId = freezed,
+    Object? categoryId = freezed,
     Object? authorName = freezed,
     Object? authorImage = freezed,
     Object? categoryName = freezed,
@@ -113,13 +113,13 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
               as double?,
-      authorID: freezed == authorID
-          ? _value.authorID
-          : authorID // ignore: cast_nullable_to_non_nullable
+      authorId: freezed == authorId
+          ? _value.authorId
+          : authorId // ignore: cast_nullable_to_non_nullable
               as String?,
-      categoryID: freezed == categoryID
-          ? _value.categoryID
-          : categoryID // ignore: cast_nullable_to_non_nullable
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
               as String?,
       authorName: freezed == authorName
           ? _value.authorName
@@ -158,8 +158,8 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
       String image,
       int price,
       double? score,
-      String? authorID,
-      String? categoryID,
+      String? authorId,
+      String? categoryId,
       String? authorName,
       String? authorImage,
       String? categoryName,
@@ -182,8 +182,8 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? image = null,
     Object? price = null,
     Object? score = freezed,
-    Object? authorID = freezed,
-    Object? categoryID = freezed,
+    Object? authorId = freezed,
+    Object? categoryId = freezed,
     Object? authorName = freezed,
     Object? authorImage = freezed,
     Object? categoryName = freezed,
@@ -215,13 +215,13 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
               as double?,
-      authorID: freezed == authorID
-          ? _value.authorID
-          : authorID // ignore: cast_nullable_to_non_nullable
+      authorId: freezed == authorId
+          ? _value.authorId
+          : authorId // ignore: cast_nullable_to_non_nullable
               as String?,
-      categoryID: freezed == categoryID
-          ? _value.categoryID
-          : categoryID // ignore: cast_nullable_to_non_nullable
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
               as String?,
       authorName: freezed == authorName
           ? _value.authorName
@@ -257,8 +257,8 @@ class _$_Book implements _Book {
       required this.image,
       required this.price,
       this.score,
-      this.authorID,
-      this.categoryID,
+      this.authorId,
+      this.categoryId,
       this.authorName,
       this.authorImage,
       this.categoryName,
@@ -280,9 +280,9 @@ class _$_Book implements _Book {
   @override
   final double? score;
   @override
-  final String? authorID;
+  final String? authorId;
   @override
-  final String? categoryID;
+  final String? categoryId;
   @override
   final String? authorName;
   @override
@@ -297,7 +297,7 @@ class _$_Book implements _Book {
 
   @override
   String toString() {
-    return 'Book(id: $id, title: $title, description: $description, image: $image, price: $price, score: $score, authorID: $authorID, categoryID: $categoryID, authorName: $authorName, authorImage: $authorImage, categoryName: $categoryName, categoryImage: $categoryImage, count: $count)';
+    return 'Book(id: $id, title: $title, description: $description, image: $image, price: $price, score: $score, authorId: $authorId, categoryId: $categoryId, authorName: $authorName, authorImage: $authorImage, categoryName: $categoryName, categoryImage: $categoryImage, count: $count)';
   }
 
   @override
@@ -312,10 +312,10 @@ class _$_Book implements _Book {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.score, score) || other.score == score) &&
-            (identical(other.authorID, authorID) ||
-                other.authorID == authorID) &&
-            (identical(other.categoryID, categoryID) ||
-                other.categoryID == categoryID) &&
+            (identical(other.authorId, authorId) ||
+                other.authorId == authorId) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
             (identical(other.authorName, authorName) ||
                 other.authorName == authorName) &&
             (identical(other.authorImage, authorImage) ||
@@ -337,8 +337,8 @@ class _$_Book implements _Book {
       image,
       price,
       score,
-      authorID,
-      categoryID,
+      authorId,
+      categoryId,
       authorName,
       authorImage,
       categoryName,
@@ -367,8 +367,8 @@ abstract class _Book implements Book {
       required final String image,
       required final int price,
       final double? score,
-      final String? authorID,
-      final String? categoryID,
+      final String? authorId,
+      final String? categoryId,
       final String? authorName,
       final String? authorImage,
       final String? categoryName,
@@ -390,9 +390,9 @@ abstract class _Book implements Book {
   @override
   double? get score;
   @override
-  String? get authorID;
+  String? get authorId;
   @override
-  String? get categoryID;
+  String? get categoryId;
   @override
   String? get authorName;
   @override

@@ -22,8 +22,11 @@ Author _$AuthorFromJson(Map<String, dynamic> json) {
 mixin _$Author {
   String get id => throw _privateConstructorUsedError;
   String get fullname => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: 0)
   int? get books => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: false)
+  bool get active => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +38,12 @@ abstract class $AuthorCopyWith<$Res> {
   factory $AuthorCopyWith(Author value, $Res Function(Author) then) =
       _$AuthorCopyWithImpl<$Res, Author>;
   @useResult
-  $Res call({String id, String fullname, int? books, String image});
+  $Res call(
+      {String id,
+      String fullname,
+      @JsonKey(defaultValue: 0) int? books,
+      String image,
+      @JsonKey(defaultValue: false) bool active});
 }
 
 /// @nodoc
@@ -55,6 +63,7 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
     Object? fullname = null,
     Object? books = freezed,
     Object? image = null,
+    Object? active = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,6 +82,10 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -83,7 +96,12 @@ abstract class _$$_AuthorCopyWith<$Res> implements $AuthorCopyWith<$Res> {
       __$$_AuthorCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String fullname, int? books, String image});
+  $Res call(
+      {String id,
+      String fullname,
+      @JsonKey(defaultValue: 0) int? books,
+      String image,
+      @JsonKey(defaultValue: false) bool active});
 }
 
 /// @nodoc
@@ -100,6 +118,7 @@ class __$$_AuthorCopyWithImpl<$Res>
     Object? fullname = null,
     Object? books = freezed,
     Object? image = null,
+    Object? active = null,
   }) {
     return _then(_$_Author(
       id: null == id
@@ -118,6 +137,10 @@ class __$$_AuthorCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -128,8 +151,9 @@ class _$_Author implements _Author {
   const _$_Author(
       {required this.id,
       required this.fullname,
-      this.books,
-      required this.image});
+      @JsonKey(defaultValue: 0) this.books,
+      required this.image,
+      @JsonKey(defaultValue: false) required this.active});
 
   factory _$_Author.fromJson(Map<String, dynamic> json) =>
       _$$_AuthorFromJson(json);
@@ -139,13 +163,17 @@ class _$_Author implements _Author {
   @override
   final String fullname;
   @override
+  @JsonKey(defaultValue: 0)
   final int? books;
   @override
   final String image;
+  @override
+  @JsonKey(defaultValue: false)
+  final bool active;
 
   @override
   String toString() {
-    return 'Author(id: $id, fullname: $fullname, books: $books, image: $image)';
+    return 'Author(id: $id, fullname: $fullname, books: $books, image: $image, active: $active)';
   }
 
   @override
@@ -157,12 +185,14 @@ class _$_Author implements _Author {
             (identical(other.fullname, fullname) ||
                 other.fullname == fullname) &&
             (identical(other.books, books) || other.books == books) &&
-            (identical(other.image, image) || other.image == image));
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.active, active) || other.active == active));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fullname, books, image);
+  int get hashCode =>
+      Object.hash(runtimeType, id, fullname, books, image, active);
 
   @JsonKey(ignore: true)
   @override
@@ -182,8 +212,9 @@ abstract class _Author implements Author {
   const factory _Author(
       {required final String id,
       required final String fullname,
-      final int? books,
-      required final String image}) = _$_Author;
+      @JsonKey(defaultValue: 0) final int? books,
+      required final String image,
+      @JsonKey(defaultValue: false) required final bool active}) = _$_Author;
 
   factory _Author.fromJson(Map<String, dynamic> json) = _$_Author.fromJson;
 
@@ -192,9 +223,13 @@ abstract class _Author implements Author {
   @override
   String get fullname;
   @override
+  @JsonKey(defaultValue: 0)
   int? get books;
   @override
   String get image;
+  @override
+  @JsonKey(defaultValue: false)
+  bool get active;
   @override
   @JsonKey(ignore: true)
   _$$_AuthorCopyWith<_$_Author> get copyWith =>

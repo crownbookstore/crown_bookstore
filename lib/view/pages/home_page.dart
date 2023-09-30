@@ -1,9 +1,14 @@
+import 'dart:developer';
+
+import 'package:bookstore/controller/data_controller.dart';
 import 'package:bookstore/controller/home_controller.dart';
 import 'package:bookstore/model/category.dart';
 import 'package:bookstore/router/route_name.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../constants.dart';
 import '../../data.dart';
@@ -15,6 +20,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final DataController dataController = Get.find();
     final HomeController homeController = Get.find();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,7 +63,7 @@ class HomePage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Obx(() {
                   final selectedID = homeController.selectedCategoryID.value;
-                  final categories = homeController.categories;
+                  final categories = homeController.activeCategories;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List.generate(
@@ -77,12 +84,13 @@ class HomePage extends StatelessWidget {
         Expanded(
           child: Container(
             child: Obx(() {
-              final books = homeController.books;
+              final books = homeController.selectedCategoryBooks;
+              log("SelectedCategoryBooks:${books.length}");
               return ListView(
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                children: List.generate(
-                    books.length, (index) => buildBook(books[index], index)),
+                children: List.generate(books.length,
+                    (index) => buildBook(books[index], index, width)),
               );
             }),
           ),
@@ -109,25 +117,28 @@ class HomePage extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "Show all",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                    InkWell(
+                      onTap: () => dataController.changeBottomNavIndex(2),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Show all",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: 18,
                             color: kPrimaryColor,
                           ),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: 18,
-                          color: kPrimaryColor,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -136,7 +147,7 @@ class HomePage extends StatelessWidget {
                 height: 100,
                 margin: EdgeInsets.only(bottom: 16),
                 child: Obx(() {
-                  final authors = homeController.authors;
+                  final authors = homeController.activeAuthors;
                   return ListView(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
@@ -188,18 +199,20 @@ Widget buildFilter({
   );
 }
 
-Widget buildBook(Book book, int index) {
+Widget buildBook(Book book, int index, double width) {
   return GestureDetector(
     onTap: () {
       Get.toNamed(bookDetailPage, arguments: {"book": book});
     },
     child: Container(
+      width: width * 0.5,
       margin: EdgeInsets.only(right: 32, left: index == 0 ? 16 : 0, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Expanded(
+            flex: 12,
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -217,26 +230,48 @@ Widget buildBook(Book book, int index) {
               ),
               child: Hero(
                 tag: book.title,
-                child: Image.asset(
-                  book.image,
-                  fit: BoxFit.fitWidth,
+                child: CachedNetworkImage(
+                  progressIndicatorBuilder: (context, url, status) {
+                    return Shimmer.fromColors(
+                      child: Container(
+                        color: Colors.white,
+                      ),
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.white,
+                    );
+                  },
+                  errorWidget: (context, url, whatever) {
+                    return const Text("Image not available");
+                  },
+                  imageUrl: book.image,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
-          Text(
-            book.title,
-            style: GoogleFonts.catamaran(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+          Expanded(
+            flex: 1,
+            child: Text(
+              book.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.catamaran(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          Text(
-            book.authorName ?? "",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
+          Expanded(
+            flex: 1,
+            child: Text(
+              book.authorName ?? "",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -273,7 +308,7 @@ Widget buildAuthor(Author author, int index) {
             height: 75,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(author.image),
+                image: NetworkImage(author.image),
                 fit: BoxFit.cover,
               ),
             ),

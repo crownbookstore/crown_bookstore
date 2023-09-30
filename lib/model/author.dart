@@ -8,8 +8,9 @@ class Author with _$Author {
   const factory Author({
     required String id,
     required String fullname,
-    int? books,
+    @JsonKey(defaultValue: 0) int? books,
     required String image,
+    @JsonKey(defaultValue: false) required bool active,
   }) = _Author;
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
