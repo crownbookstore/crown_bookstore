@@ -205,14 +205,15 @@ Widget buildBook(Book book, int index, double width) {
       Get.toNamed(bookDetailPage, arguments: {"book": book});
     },
     child: Container(
-      width: width * 0.5,
-      margin: EdgeInsets.only(right: 32, left: index == 0 ? 16 : 0, bottom: 8),
+      width: width * 0.45,
+      /* color: Colors.red, */
+      margin: EdgeInsets.only(right: 20, left: index == 0 ? 16 : 0, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            flex: 12,
+            flex: 15,
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -225,8 +226,8 @@ Widget buildBook(Book book, int index, double width) {
                 ],
               ),
               margin: EdgeInsets.only(
-                bottom: 16,
-                top: 24,
+                /*  bottom: 10, */
+                top: 20,
               ),
               child: Hero(
                 tag: book.title,

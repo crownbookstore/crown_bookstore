@@ -41,10 +41,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.catamaranTextTheme(),
-      ),
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.catamaranTextTheme(),
+          bottomSheetTheme: BottomSheetThemeData(
+            modalBackgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+          )),
       debugShowCheckedModeBanner: false,
       initialRoute: homePage,
       getPages: routeList,
