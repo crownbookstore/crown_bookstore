@@ -282,76 +282,83 @@ Widget buildBook(Book book, int index, double width) {
 }
 
 Widget buildAuthor(Author author, int index) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.grey[200],
-      borderRadius: BorderRadius.all(
-        Radius.circular(15),
+  final HomeController homeController = Get.find();
+  return InkWell(
+    onTap: () {
+      Get.toNamed(authorDetailPage, arguments: {"author": author});
+      homeController.changeAuthorBooks(author.id);
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
       ),
-    ),
-    padding: EdgeInsets.all(12),
-    margin: EdgeInsets.only(right: 16, left: index == 0 ? 16 : 0),
-    width: 255,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Card(
-          elevation: 4,
-          margin: EdgeInsets.all(0),
-          clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
+      padding: EdgeInsets.all(12),
+      margin: EdgeInsets.only(right: 16, left: index == 0 ? 16 : 0),
+      width: 255,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Card(
+            elevation: 4,
+            margin: EdgeInsets.all(0),
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
+              ),
             ),
-          ),
-          child: Container(
-            width: 75,
-            height: 75,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(author.image),
-                fit: BoxFit.cover,
+            child: Container(
+              width: 75,
+              height: 75,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(author.image),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(
-          width: 12,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              author.fullname,
-              style: GoogleFonts.catamaran(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+          SizedBox(
+            width: 12,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                author.fullname,
+                style: GoogleFonts.catamaran(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.library_books,
-                  color: Colors.grey,
-                  size: 14,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  author.books.toString() + " books",
-                  style: TextStyle(
-                    fontSize: 14,
+              Row(
+                children: [
+                  Icon(
+                    Icons.library_books,
                     color: Colors.grey,
-                    fontWeight: FontWeight.bold,
+                    size: 14,
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    author.books.toString() + " books",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }

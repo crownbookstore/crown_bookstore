@@ -34,7 +34,6 @@ class HomeController extends GetxController {
     final snapshot =
         await FirebaseReference.categoryCollection.orderBy("name").get();
     categories.value = snapshot.docs.map((e) => e.data()).toList();
-    selectedCategoryID.value = categories.first.id;
     activeCategories.value = categories.where((e) => e.active).toList();
     selectedCategoryID.value = activeCategories.first.id;
   }

@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../router/route_name.dart';
+
 class AuthorDetailPage extends StatelessWidget {
   const AuthorDetailPage({Key? key}) : super(key: key);
 
@@ -85,7 +87,10 @@ class AuthorDetailPage extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final book = books[index];
                             return InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Get.toNamed(bookDetailPage,
+                                    arguments: {"book": book});
+                              },
                               child: Container(
                                 child: Column(
                                   children: [
