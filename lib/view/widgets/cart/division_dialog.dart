@@ -1,3 +1,4 @@
+import 'package:bookstore/controller/home_controller.dart';
 import 'package:bookstore/view/widgets/cart/township_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,6 +7,7 @@ import '../../../constants.dart';
 import '../../../controller/cart_controller.dart';
 
 Widget divisionDialogWidget() {
+  final HomeController homeController = Get.find();
   return Material(
     type: MaterialType.transparency,
     child: Align(
@@ -26,7 +28,7 @@ Widget divisionDialogWidget() {
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: divisionList.length,
+              itemCount: homeController.divisions.length,
               itemBuilder: (context, divisionIndex) {
                 return MouseRegion(
                   onHover: (event) {
@@ -36,7 +38,7 @@ Widget divisionDialogWidget() {
                       barrierColor: Colors.white.withOpacity(0),
                       builder: (context) {
                         return townShipDialog(
-                            division: divisionList[divisionIndex]);
+                            division: homeController.divisions[divisionIndex]);
                       },
                     );
                   },
@@ -54,7 +56,7 @@ Widget divisionDialogWidget() {
                         children: [
                           //Text
                           Text(
-                            divisionList[divisionIndex].name,
+                            homeController.divisions[divisionIndex].name,
                             style: TextStyle(
                               color: controller.mouseIndex == divisionIndex
                                   ? Colors.white

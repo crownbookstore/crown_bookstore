@@ -1,5 +1,6 @@
 import 'package:bookstore/model/book.dart';
 import 'package:bookstore/model/hive_book.dart';
+import 'package:bookstore/server/reference.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -219,9 +220,11 @@ class CartController extends GetxController {
         deliveryTownshipInfo: _purchase.deliveryTownshipInfo,
         dateTime: DateTime.now(),
       );
-      await Future.delayed(Duration(
-              seconds: 2)) /*FIXME: database.writePurchaseData(_purchase) */
-          .then((value) {
+      FirebaseReference.checkUploadImage(
+              bankSlipImage.value.isNotEmpty, "orders", bankSlipImage.value)
+          .then((value) async {
+        await FirebaseReference.orderDocument(_purchase.id)
+            .set(_purchase.copyWith(bankSlipImage: value));
         hideLoading();
         Get.back();
         Get.snackbar("လူကြီးမင်း Order တင်ခြင်း", 'အောင်မြင်ပါသည်');

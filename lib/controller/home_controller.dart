@@ -1,4 +1,5 @@
 import 'package:bookstore/model/category.dart';
+import 'package:bookstore/model/division.dart';
 import 'package:bookstore/server/reference.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,7 @@ class HomeController extends GetxController {
   RxList<Book> authorBooks = <Book>[].obs;
   RxList<Category> activeCategories = <Category>[].obs;
   RxList<Author> activeAuthors = <Author>[].obs;
+  RxList<Division> divisions = <Division>[].obs;
   var selectedCategoryID = "".obs;
 
   void changeSelectedCategoryID(String id) {
@@ -53,10 +55,17 @@ class HomeController extends GetxController {
     activeAuthors.value = authors.where((e) => e.active).toList();
   }
 
+  Future<void> getDivisions() async {
+    final snapshot =
+        await FirebaseReference.divisionCollection.orderBy("dateTime").get();
+    divisions.value = snapshot.docs.map((e) => e.data()).toList();
+  }
+
   @override
   void onInit() {
     getCategories().then((value) => getBooks());
     getAuthors();
+    getDivisions();
     super.onInit();
   }
 }

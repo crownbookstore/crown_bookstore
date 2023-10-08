@@ -20,37 +20,38 @@ Widget townShipDialog({required Division division}) {
         ),
         color: Colors.white,
       ),
-      child: ListView(
-        children: division.townShipMap.entries.map((map) {
+      child: /* ListView(
+        children: division.townships.map((map) {
           return SizedBox(
             height: map.value.length * 50,
-            child: ListView.builder(
-                primary: false,
-                itemCount: map.value.length,
-                itemBuilder: (context, index) {
-                  return TextButton(
-                    onPressed: () {
-                      controller.setTownShipNameAndShip(
-                        name: map.value[index],
-                        fee: map.key,
-                      );
-                      //Pop this dialog
-                      Get.back();
-                      Get.back();
-                    },
-                    child: Text(
-                      map.value[index],
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+            child:  */
+          ListView.builder(
+              primary: false,
+              itemCount: division.townships.length,
+              itemBuilder: (context, index) {
+                final township = division.townships[index];
+                return TextButton(
+                  onPressed: () {
+                    controller.setTownShipNameAndShip(
+                      name: township.name,
+                      fee: "${township.fee}",
+                    );
+                    //Pop this dialog
+                    Get.back();
+                    Get.back();
+                  },
+                  child: Text(
+                    township.name,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
                     ),
-                  );
-                }),
-          );
-        }).toList(),
-      ),
+                  ),
+                );
+              }),
+      /* );
+        }).toList(), */
     ),
   );
 }

@@ -41,7 +41,7 @@ class Bookstore extends StatelessWidget {
         title: Text(
           "CROWN",
           textAlign: TextAlign.center,
-          style: GoogleFonts.croissantOne(
+          style: TextStyle(
             color: kPrimaryColor,
             fontWeight: FontWeight.bold,
             letterSpacing: 3,

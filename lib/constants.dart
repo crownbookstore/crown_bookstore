@@ -64,7 +64,7 @@ enum PaymentMethod {
 
 const String bankSlip = "BANK-SLIP";
 const String cashOnDelivery = "CashOnDelivery";
-
+/* 
 final List<Division> divisionList = [
   //Yangon Division
   Division(
@@ -155,7 +155,7 @@ final List<Division> divisionList = [
     },
   ),
 ];
-
+ */
 List<SearchType> searchTypes = [
   SearchType(name: "Book Title", type: SearchingType.bookTitle),
   SearchType(name: "Category Name", type: SearchingType.categoryName),

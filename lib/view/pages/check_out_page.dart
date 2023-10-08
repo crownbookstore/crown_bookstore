@@ -212,13 +212,14 @@ Widget prePayWidget(BuildContext context) {
         ),
         const SizedBox(height: 10),
         */
+        //TODO:Change
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
               children: [
                 Image.asset(
-                  "assets/aya.png",
+                  "assets/kbz_pay.webp",
                   width: 112,
                   height: 63,
                 ),
@@ -231,7 +232,7 @@ Widget prePayWidget(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text(
-                  " Kaung Sett Win",
+                  " Nyein Chan Nay Win",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -246,10 +247,10 @@ Widget prePayWidget(BuildContext context) {
                         .then((_) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              "KBZ Pay Account နံပါတ် 09 764 39 7743 ကို Copy ကူး လိုက်ပါပြီ")));
+                              "KBZ Pay Account နံပါတ် 09 420 08 6031 ကို Copy ကူး လိုက်ပါပြီ")));
                     });
                   },
-                  child: const Text('09 764 39 7743'),
+                  child: const Text('09 420 08 6031'),
                 ),
               ],
             ),
@@ -264,7 +265,7 @@ Widget prePayWidget(BuildContext context) {
               Column(
                 children: [
                   Image.asset(
-                    "assets/kbz.png",
+                    "assets/wave_pay.png",
                     width: 112,
                     height: 63,
                   ),
@@ -277,7 +278,7 @@ Widget prePayWidget(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    " U Kaung Sett Win",
+                    " Nyein Chan Nay Win",
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -293,10 +294,10 @@ Widget prePayWidget(BuildContext context) {
                           .then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
-                                "KBZ Bank Account နံပါတ် 286 301 286 0063 3901 ကို Copy ကူး လိုက်ပါပြီ")));
+                                "WavePay Account နံပါတ် 09 420 08 6031 ကို Copy ကူး လိုက်ပါပြီ")));
                       });
                     },
-                    child: const Text('286 301 286 0063 3901'),
+                    child: const Text('09 420 08 6031'),
                   ),
                 ],
               ),
@@ -316,7 +317,7 @@ Widget prePayWidget(BuildContext context) {
                 ),
               )),
               onPressed: () => getBankSlip(controller),
-              child: Text("KBZ Pay / KBZ / AYA Screenshot"),
+              child: Text("KBZ Pay / WavePay Screenshot"),
             ),
             //Image String
             Obx(
