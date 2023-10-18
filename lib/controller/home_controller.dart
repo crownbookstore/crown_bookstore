@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:bookstore/model/category.dart';
@@ -50,8 +51,19 @@ class HomeController extends GetxController {
     final snapshot = await FirebaseReference.bookCollection
         .orderBy("dateTime", descending: true)
         .get();
-    books.value = snapshot.docs.map((e) => e.data()).toList();
-
+    for (var doc in snapshot.docs) {
+      books.add(doc.data());
+      try {
+        final index = authors.indexWhere((e) => e.id == doc.data().authorId);
+        final preCount = authors[index].books ?? 0;
+        authors[index] = authors[index].copyWith(books: preCount + 1);
+        activeAuthors.value = authors.where((e) => e.active).toList();
+      } catch (e) {
+        log("Author books increase error: $e");
+      }
+    }
+/*     books.value = snapshot.docs.map((e) => e.data()).toList();
+ */
     selectedCategoryBooks.value =
         books.where((e) => e.categoryId == activeCategories.first.id).toList();
   }
@@ -72,8 +84,8 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    getCategories().then((value) => getBooks());
-    getAuthors();
+    getCategories().then((value) => getAuthors().then((value) => getBooks()));
+
     getDivisions();
     super.onInit();
   }
