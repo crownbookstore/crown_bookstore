@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstore/data.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -117,8 +118,8 @@ class _BookDetailState extends State<BookDetail> {
                         ),
                         child: Container(
                           padding: EdgeInsets.only(
-                            right: 32,
-                            left: 32,
+                            right: 20,
+                            left: 20,
                             bottom: 16,
                           ),
                           child: Column(
@@ -126,14 +127,13 @@ class _BookDetailState extends State<BookDetail> {
                             children: [
                               Text(
                                 book.title,
-                                style: GoogleFonts.catamaran(
-                                  fontSize: 28,
+                                style: TextStyle(
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  height: 1,
                                 ),
                               ),
                               Text(
-                                book.authorName ?? "",
+                                "By ${book.authorName}",
                                 style: GoogleFonts.catamaran(
                                   fontSize: 18,
                                   color: Colors.grey,
@@ -144,34 +144,22 @@ class _BookDetailState extends State<BookDetail> {
                                 padding: EdgeInsets.symmetric(vertical: 8),
                                 child: Row(
                                   children: [
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.star,
-                                          size: 20,
-                                          color: kStarsColor,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          size: 20,
-                                          color: kStarsColor,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          size: 20,
-                                          color: kStarsColor,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          size: 20,
-                                          color: kStarsColor,
-                                        ),
-                                        Icon(
-                                          Icons.star_half,
-                                          size: 20,
-                                          color: kStarsColor,
-                                        ),
-                                      ],
+                                    RatingBar.builder(
+                                      initialRating: book.score ?? 0,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 20,
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 2.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: kStarsColor,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
                                     ),
                                     SizedBox(
                                       width: 12,
@@ -188,7 +176,7 @@ class _BookDetailState extends State<BookDetail> {
                                 ),
                               ),
                               Text(
-                                /* book.description */ desc,
+                                book.description,
                                 style: GoogleFonts.catamaran(
                                   fontSize: 16,
                                 ),
@@ -354,25 +342,30 @@ class _BookDetailState extends State<BookDetail> {
                 ),
               ),
               child: Center(
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "${book.price} ကျပ်",
-                      style: GoogleFonts.catamaran(
-                        fontSize: 18,
+                      "${book.price} ks",
+                      style: TextStyle(
+                        fontSize: book.discountPrice == null ? 18 : 12,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
+                        decoration: book.discountPrice == null
+                            ? TextDecoration.none
+                            : TextDecoration.lineThrough,
                       ),
                     ),
-                    /* SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.content_copy,
-                                      color: kPrimaryColor,
-                                      size: 20,
-                                    ), */
+                    book.discountPrice == null
+                        ? const SizedBox()
+                        : Text(
+                            "${book.discountPrice} ks",
+                            style: GoogleFonts.catamaran(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ],
                 ),
               ),

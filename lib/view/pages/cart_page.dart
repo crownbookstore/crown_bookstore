@@ -1,5 +1,6 @@
 import 'package:bookstore/constants.dart';
 import 'package:bookstore/model/book.dart';
+import 'package:bookstore/view/pages/new_checkout_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -90,7 +91,7 @@ class CartPage extends StatelessWidget {
                                           )),
                                       SizedBox(height: 5),
                                       Text(
-                                        "${product.price} ကျပ်",
+                                        "${product.discountPrice ?? product.price} ကျပ်",
                                         style: TextStyle(fontSize: 12),
                                       ),
                                     ],
@@ -132,7 +133,7 @@ class CartPage extends StatelessWidget {
                     ),
             ),
             // AddPromotionWidget(),
-            Align(
+            /*  Align(
               alignment: Alignment.bottomCenter,
               child: GetBuilder<CartController>(builder: (controller) {
                 return Container(
@@ -303,6 +304,7 @@ class CartPage extends StatelessWidget {
                 );
               }),
             ),
+            */
             Container(
               width: double.infinity,
               height: 45,
@@ -313,7 +315,11 @@ class CartPage extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.all(kPrimaryColor),
                 ),
                 onPressed: () {
-                  if (cartController.checkToAcceptOrder()) {
+                  if (cartController.checkCart()) {
+                    Get.to(() => const NewCheckoutPage());
+                  }
+
+                  /*  if (cartController.checkToAcceptOrder()) {
                     //TODO: SHOW DIALOG TO CHOOSE OPTION,THEN GO TO CHECKOUT
                     Get.defaultDialog(
                       backgroundColor: Colors.white70,
@@ -325,7 +331,7 @@ class CartPage extends StatelessWidget {
                       confirm: nextButton(),
                     );
                     //Get.toNamed(checkOutScreen);
-                  }
+                  } */
                 },
                 child: Text(
                   "Order တင်ရန် နှိပ်ပါ",

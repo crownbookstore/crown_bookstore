@@ -205,53 +205,60 @@ Widget buildBook(Book book, int index, double width) {
       Get.toNamed(bookDetailPage, arguments: {"book": book});
     },
     child: Container(
-      width: width * 0.45,
+      width: width * 0.48,
       /* color: Colors.red, */
-      margin: EdgeInsets.only(right: 20, left: index == 0 ? 16 : 0, bottom: 8),
+      margin: EdgeInsets.only(right: 10, left: index == 0 ? 16 : 0, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            flex: 15,
-            child: Container(
+            flex: 18,
+            child: /* Container(
               decoration: BoxDecoration(
-                boxShadow: [
+                  /* boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 8,
                     blurRadius: 12,
                     offset: Offset(0, 3),
                   ),
-                ],
-              ),
+                ], */
+                  ),
               margin: EdgeInsets.only(
                 /*  bottom: 10, */
                 top: 20,
               ),
-              child: Hero(
-                tag: book.title,
-                child: CachedNetworkImage(
-                  progressIndicatorBuilder: (context, url, status) {
-                    return Shimmer.fromColors(
-                      child: Container(
-                        color: Colors.white,
-                      ),
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.white,
-                    );
-                  },
-                  errorWidget: (context, url, whatever) {
-                    return const Text("Image not available");
-                  },
-                  imageUrl: book.image,
-                  fit: BoxFit.cover,
+              child: */
+                Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Card(
+                elevation: 5,
+                child: Hero(
+                  tag: book.title,
+                  child: CachedNetworkImage(
+                    progressIndicatorBuilder: (context, url, status) {
+                      return Shimmer.fromColors(
+                        child: Container(
+                          color: Colors.white,
+                        ),
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.white,
+                      );
+                    },
+                    errorWidget: (context, url, whatever) {
+                      return const Text("Image not available");
+                    },
+                    imageUrl: book.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
+            /*  ), */
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Text(
               book.title,
               maxLines: 1,

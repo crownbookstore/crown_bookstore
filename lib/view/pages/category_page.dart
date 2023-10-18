@@ -64,7 +64,7 @@ class CategoryPage extends StatelessWidget {
                   ? GridView.builder(
                       itemCount: categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
+                        crossAxisCount: 2,
                         childAspectRatio: 10 / 14,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 10,
@@ -86,44 +86,47 @@ class CategoryPage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.white,
                                           spreadRadius: 5,
                                           blurRadius: 12,
                                           offset: Offset(0, 3),
                                         ),
                                       ],
                                     ),
-                                    child: CachedNetworkImage(
-                                      progressIndicatorBuilder:
-                                          (context, url, status) {
-                                        return Shimmer.fromColors(
-                                          child: Container(
-                                            color: Colors.white,
-                                          ),
-                                          baseColor: Colors.grey.shade300,
-                                          highlightColor: Colors.white,
-                                        );
-                                      },
-                                      errorWidget: (context, url, whatever) {
-                                        return const Text(
-                                            "Image not available");
-                                      },
-                                      /* imageBuilder: (context, imageProvider) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: imageProvider,
-                                              ),
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(
-                                                  10,
+                                    child: Card(
+                                      elevation: 5,
+                                      child: CachedNetworkImage(
+                                        progressIndicatorBuilder:
+                                            (context, url, status) {
+                                          return Shimmer.fromColors(
+                                            child: Container(
+                                              color: Colors.white,
+                                            ),
+                                            baseColor: Colors.grey.shade300,
+                                            highlightColor: Colors.white,
+                                          );
+                                        },
+                                        errorWidget: (context, url, whatever) {
+                                          return const Text(
+                                              "Image not available");
+                                        },
+                                        /* imageBuilder: (context, imageProvider) {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: imageProvider,
                                                 ),
-                                              )),
-                                        );
-                                      }, */
-                                      imageUrl: category.image,
-                                      fit: BoxFit.cover,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(
+                                                    10,
+                                                  ),
+                                                )),
+                                          );
+                                        }, */
+                                        imageUrl: category.image,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),

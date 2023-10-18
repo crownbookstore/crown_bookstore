@@ -66,7 +66,7 @@ class AuthorPage extends StatelessWidget {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 10 / 16,
-                        crossAxisSpacing: 20,
+                        crossAxisSpacing: 0,
                         mainAxisSpacing: 10,
                       ),
                       itemBuilder: (context, index) {
@@ -83,8 +83,9 @@ class AuthorPage extends StatelessWidget {
                                 //Image
                                 Expanded(
                                   flex: 3,
-                                  child: Container(
-                                    decoration: BoxDecoration(
+                                  child: Card(
+                                    elevation: 5,
+                                    /* decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
@@ -93,24 +94,27 @@ class AuthorPage extends StatelessWidget {
                                           offset: Offset(0, 3),
                                         ),
                                       ],
-                                    ),
-                                    child: CachedNetworkImage(
-                                      progressIndicatorBuilder:
-                                          (context, url, status) {
-                                        return Shimmer.fromColors(
-                                          child: Container(
-                                            color: Colors.white,
-                                          ),
-                                          baseColor: Colors.grey.shade300,
-                                          highlightColor: Colors.white,
-                                        );
-                                      },
-                                      errorWidget: (context, url, whatever) {
-                                        return const Text(
-                                            "Image not available");
-                                      },
-                                      imageUrl: author.image,
-                                      fit: BoxFit.cover,
+                                    ), */
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CachedNetworkImage(
+                                        progressIndicatorBuilder:
+                                            (context, url, status) {
+                                          return Shimmer.fromColors(
+                                            child: Container(
+                                              color: Colors.white,
+                                            ),
+                                            baseColor: Colors.grey.shade300,
+                                            highlightColor: Colors.white,
+                                          );
+                                        },
+                                        errorWidget: (context, url, whatever) {
+                                          return const Text(
+                                              "Image not available");
+                                        },
+                                        imageUrl: author.image,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),

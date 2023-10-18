@@ -167,3 +167,6 @@ enum SearchingType {
   categoryName,
   authorName,
 }
+
+const String messengerBaseUrl = "fb-messenger://user/121530935902385";
+   /*  "https://www.facebook.com/messages/t/121530935902385"; */

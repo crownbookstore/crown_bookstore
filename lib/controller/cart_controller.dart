@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bookstore/model/book.dart';
 import 'package:bookstore/model/hive_book.dart';
 import 'package:bookstore/server/reference.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import '../constants.dart';
 import '../model/hive_purchase.dart';
@@ -12,11 +15,14 @@ import '../model/purchase.dart';
 import '../utils/show_loading.dart';
 
 class CartController extends GetxController {
+  final GlobalKey<FormState> form = GlobalKey();
+  RxList<String> userOrderData = <String>[].obs;
   final RxMap<String, List<dynamic>> myCart = <String, List<dynamic>>{}.obs;
   Map<String, dynamic> townShipNameAndFee = {};
   var firstTimePressedCart = false.obs;
   var bankSlipImage = "".obs;
-  var checkOutStep = 0.obs;
+  var checkOutStep = 1.obs;
+  var paymentOptionStep = 1.obs;
   var paymentOptions = PaymentOptions.None.obs;
   var paymentMethod = PaymentMethod.cashOnDelivery.obs;
   int mouseIndex = -1; //Mouse Region
@@ -60,11 +66,29 @@ class CartController extends GetxController {
       final count = list[0] as int;
 
       //---for normal products----//
-      price += item.price.round() * count;
+      price += (item.discountPrice ?? item.price.round()) * count;
     }
     subTotal = price;
     if (isUpdate) {
       update();
+    }
+  }
+
+  bool checkToAcceptPrepay() {
+    if (bankSlipImage.isEmpty) {
+      Get.snackbar('Error', "Plase pick a screenshot.");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool checkCart() {
+    if (myCart.isEmpty) {
+      Get.snackbar('Error', "Cart is empty");
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -79,6 +103,26 @@ class CartController extends GetxController {
     } else {
       return true;
     }
+  }
+
+  //Go to messenger
+  void launchMessenger() async {
+    // Convert the product object to a JSON string
+    String productJson = jsonEncode(myCart.toJson());
+
+    // Encode the JSON string for use in a URL
+    String encodedProduct = Uri.encodeComponent(productJson);
+
+    // Compose your deep link with the encoded data
+    Uri deepLink = Uri.parse('$messengerBaseUrl');
+
+    // Check if the app can launch the deep link
+/*     if (await canLaunchUrl(deepLink)) {
+ */
+    await launchUrl(deepLink);
+    /* } else {
+      throw 'Could not launch $deepLink';
+    } */
   }
 
   void changeMouseIndex(int i) {
@@ -111,6 +155,8 @@ class CartController extends GetxController {
     checkOutStep.value = value;
   }
 
+  void changePaymentOptionIndex(int value) => paymentOptionStep.value = value;
+
   //Set Bank Slip Image
   void setBankSlipImage(String image) {
     bankSlipImage.value = image;
@@ -126,6 +172,7 @@ class CartController extends GetxController {
     required String email,
     required String phone,
     required String address,
+    required String note,
   }) async {
     //Making Purchase Model
     try {} catch (e) {}
@@ -133,12 +180,13 @@ class CartController extends GetxController {
     //Check data already contain with the same data inside SharedPreference
     if (list.isEmpty) {
       await sharedPref
-          .setStringList("userOrder", [name, email, phone, address]);
+          .setStringList("userOrder", [name, email, phone, address, note]);
     } else if ( //Something is changed by User,then we restore
         (name != list[0]) ||
             (email != list[1]) ||
             (phone != list[2]) ||
-            (address != list[3])) {
+            (address != list[3]) ||
+            (note != list[4])) {
       await sharedPref
           .setStringList("userOrder", [name, email, phone, address]);
     }
@@ -148,18 +196,19 @@ class CartController extends GetxController {
   @override
   void onInit() async {
     sharedPref = await SharedPreferences.getInstance();
-    if (getUserOrderData().isNotEmpty) {
+    userOrderData.value = getUserOrderData();
+    if (userOrderData.isNotEmpty) {
       checkOutStep.value = 1;
     }
     super.onInit();
   }
 
   ///Get for Payment Method
-  String getPaymentMethod(PaymentMethod method) {
-    switch (method) {
-      case PaymentMethod.bankSlip:
+  String getPaymentMethod(/* PaymentMethod method */) {
+    switch (paymentOptionStep.value) {
+      case 2:
         return bankSlip;
-      case PaymentMethod.cashOnDelivery:
+      case 1:
         return cashOnDelivery;
       default:
         return "Something Wrong!";
@@ -183,7 +232,7 @@ class CartController extends GetxController {
       final list = getUserOrderData();
       final _purchase = PurchaseModel(
         total: total,
-        paymentMethod: getPaymentMethod(paymentMethod.value),
+        paymentMethod: getPaymentMethod(/* paymentMethod.value */),
         dateTime: DateTime.now().toString(),
         id: Uuid().v1(),
         items: myCart.entries.map((e) {
@@ -212,7 +261,7 @@ class CartController extends GetxController {
                   id: e.id,
                   name: e.title,
                   image: e.image,
-                  price: e.price,
+                  price: e.discountPrice ?? e.price,
                   count: e.count!,
                 ))
             .toList(),
@@ -245,6 +294,8 @@ class CartController extends GetxController {
     townShipNameAndFee = {};
     paymentOptions = PaymentOptions.None.obs;
     bankSlipImage = "".obs;
+    checkOutStep.value = 1;
+    paymentOptionStep.value = 1;
     firstTimePressedCart = false.obs;
   }
 }

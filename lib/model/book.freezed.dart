@@ -25,6 +25,7 @@ mixin _$Book {
   String get description => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
+  int? get discountPrice => throw _privateConstructorUsedError;
   double? get score => throw _privateConstructorUsedError;
   String? get authorId => throw _privateConstructorUsedError;
   String? get categoryId => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $BookCopyWith<$Res> {
       String description,
       String image,
       int price,
+      int? discountPrice,
       double? score,
       String? authorId,
       String? categoryId,
@@ -79,6 +81,7 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
     Object? description = null,
     Object? image = null,
     Object? price = null,
+    Object? discountPrice = freezed,
     Object? score = freezed,
     Object? authorId = freezed,
     Object? categoryId = freezed,
@@ -109,6 +112,10 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
+      discountPrice: freezed == discountPrice
+          ? _value.discountPrice
+          : discountPrice // ignore: cast_nullable_to_non_nullable
+              as int?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -157,6 +164,7 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
       String description,
       String image,
       int price,
+      int? discountPrice,
       double? score,
       String? authorId,
       String? categoryId,
@@ -181,6 +189,7 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? description = null,
     Object? image = null,
     Object? price = null,
+    Object? discountPrice = freezed,
     Object? score = freezed,
     Object? authorId = freezed,
     Object? categoryId = freezed,
@@ -211,6 +220,10 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
+      discountPrice: freezed == discountPrice
+          ? _value.discountPrice
+          : discountPrice // ignore: cast_nullable_to_non_nullable
+              as int?,
       score: freezed == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
@@ -256,6 +269,7 @@ class _$_Book implements _Book {
       required this.description,
       required this.image,
       required this.price,
+      this.discountPrice,
       this.score,
       this.authorId,
       this.categoryId,
@@ -278,6 +292,8 @@ class _$_Book implements _Book {
   @override
   final int price;
   @override
+  final int? discountPrice;
+  @override
   final double? score;
   @override
   final String? authorId;
@@ -297,7 +313,7 @@ class _$_Book implements _Book {
 
   @override
   String toString() {
-    return 'Book(id: $id, title: $title, description: $description, image: $image, price: $price, score: $score, authorId: $authorId, categoryId: $categoryId, authorName: $authorName, authorImage: $authorImage, categoryName: $categoryName, categoryImage: $categoryImage, count: $count)';
+    return 'Book(id: $id, title: $title, description: $description, image: $image, price: $price, discountPrice: $discountPrice, score: $score, authorId: $authorId, categoryId: $categoryId, authorName: $authorName, authorImage: $authorImage, categoryName: $categoryName, categoryImage: $categoryImage, count: $count)';
   }
 
   @override
@@ -311,6 +327,8 @@ class _$_Book implements _Book {
                 other.description == description) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.discountPrice, discountPrice) ||
+                other.discountPrice == discountPrice) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.authorId, authorId) ||
                 other.authorId == authorId) &&
@@ -336,6 +354,7 @@ class _$_Book implements _Book {
       description,
       image,
       price,
+      discountPrice,
       score,
       authorId,
       categoryId,
@@ -366,6 +385,7 @@ abstract class _Book implements Book {
       required final String description,
       required final String image,
       required final int price,
+      final int? discountPrice,
       final double? score,
       final String? authorId,
       final String? categoryId,
@@ -387,6 +407,8 @@ abstract class _Book implements Book {
   String get image;
   @override
   int get price;
+  @override
+  int? get discountPrice;
   @override
   double? get score;
   @override

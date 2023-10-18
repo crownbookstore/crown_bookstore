@@ -60,44 +60,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             child: Stepper(
               currentStep: controller.checkOutStep.value,
               controlsBuilder: (context, controlDetails) {
-                return controller.checkOutStep.value == 1
-                    ? Container(
-                        width: double.infinity,
-                        height: 50,
-                        margin:
-                            const EdgeInsets.only(top: 20, right: 40, left: 40),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            //TODO: TOSUBMIT ORDER
-                            if ((controller.paymentOptions.value !=
-                                    PaymentOptions.None) &&
-                                (controller.paymentOptions.value ==
-                                    PaymentOptions.CashOnDelivery)) {
-                              //First we need to set Image to null
-                              controller.setBankSlipImage('');
-                              controller.setPaymentMethod(
-                                  PaymentMethod.cashOnDelivery);
-                              await controller.proceedToPay();
-                            } else if ((controller.paymentOptions.value !=
-                                    PaymentOptions.None) &&
-                                (controller.paymentOptions.value ==
-                                    PaymentOptions.PrePay) &&
-                                (controller.bankSlipImage.isNotEmpty)) {
-                              controller
-                                  .setPaymentMethod(PaymentMethod.bankSlip);
-                              await controller.proceedToPay();
-                            } else {
-                              debugPrint("Noting do....................");
-                            }
-                          },
-                          child: const Center(
-                            child: Text(
-                              "အတည်ပြု",
-                            ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox(height: 0, width: 0);
+                switch (controller.checkOutStep.value) {
+                  case 1:
+                    //return personal info
+                    return Container(
+                      color: Colors.red,
+                    );
+
+                  default:
+                    return Container(
+                      color: Colors.green,
+                    );
+                }
               },
               onStepTapped: (index) => controller.changeStepIndex(index),
               type: StepperType.horizontal,
@@ -136,82 +110,11 @@ Widget prePayWidget(BuildContext context) {
   final size = MediaQuery.of(context).size;
   CartController controller = Get.find();
   return SizedBox(
-    height: size.height - 300,
+    height: 300,
     width: size.width,
     child: ListView(
       children: [
         const SizedBox(height: 10),
-        /* InkWell(
-          onTap: () => kbzController.placeOrder(
-              totalAmount: controller.subTotal +
-                  controller.townShipNameAndFee["fee"] as int),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/kpay_logo.png",
-                width: 112,
-                height: 50,
-              ),
-              const Text(
-                "Pay with kbzpay",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(height: 10),
-        //WavePay
-        InkWell(
-          onTap: () {
-            List<WaveProduct> waveProducts = [];
-            List<Product> products = cartController.getProducts();
-            for (var product in products) {
-              log("Price: ${product.price}");
-              waveProducts.add(
-                WaveProduct(
-                  name: product.name,
-                  amount: product.price * (product.count ?? 0),
-                ),
-              );
-            }
-            waveProducts.add(
-              WaveProduct(
-                name:
-                    "${controller.townShipNameAndFee["townName"]}မြို့နယ်သို့ ပို့ဆောင်ခ",
-                amount: controller.townShipNameAndFee["fee"] as int,
-              ),
-            );
-            wavePayController.makeWavePayRequest(
-              waveProducts,
-              controller.subTotal + controller.townShipNameAndFee["fee"] as int,
-            );
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/wave_money.png",
-                width: 112,
-                height: 50,
-              ),
-              const Text(
-                "Pay With Wave",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(height: 10),
-        */
         //TODO:Change
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -257,100 +160,94 @@ Widget prePayWidget(BuildContext context) {
           ],
         ),
         SizedBox(height: 30),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/wave_pay.png",
-                    width: 112,
-                    height: 63,
-                  ),
-                  SizedBox(height: 5),
-                ],
-              ),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    " Nyein Chan Nay Win",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.black,
-                      textStyle: const TextStyle(fontSize: 16),
-                    ),
-                    onPressed: () {
-                      Clipboard.setData(
-                              new ClipboardData(text: "28630128600633901"))
-                          .then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "WavePay Account နံပါတ် 09 420 08 6031 ကို Copy ကူး လိုက်ပါပြီ")));
-                      });
-                    },
-                    child: const Text('09 420 08 6031'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 20),
-        Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            //Button
-            OutlinedButton(
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.black, width: 2),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+            Column(
+              children: [
+                Image.asset(
+                  "assets/wave_pay.png",
+                  width: 112,
+                  height: 63,
                 ),
-              )),
-              onPressed: () => getBankSlip(controller),
-              child: Text("KBZ Pay / WavePay Screenshot"),
+                SizedBox(height: 5),
+              ],
             ),
-            //Image String
-            Obx(
-              () => SizedBox(
-                height: 50,
-                width: size.width,
-                child: Row(children: [
-                  SizedBox(
-                    width: size.width * 0.7,
-                    child: Text(
-                      controller.bankSlipImage.value,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  " Nyein Chan Nay Win",
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
-                  controller.bankSlipImage.value.isNotEmpty
-                      ? SizedBox(
-                          width: 50,
-                          child: IconButton(
-                            onPressed: () => controller.setBankSlipImage(""),
-                            icon: Icon(
-                              FontAwesomeIcons.times,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                      : SizedBox(height: 0, width: 0),
-                ]),
-              ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(
+                            new ClipboardData(text: "28630128600633901"))
+                        .then((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "WavePay Account နံပါတ် 09 420 08 6031 ကို Copy ကူး လိုက်ပါပြီ")));
+                    });
+                  },
+                  child: const Text('09 420 08 6031'),
+                ),
+              ],
             ),
           ],
+        ),
+        SizedBox(height: 20),
+
+        //Button
+        OutlinedButton(
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black, width: 2),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          )),
+          onPressed: () => getBankSlip(controller),
+          child: Text("KBZ Pay / WavePay Screenshot"),
+        ),
+        //Image String
+        Obx(
+          () => SizedBox(
+            height: 50,
+            width: size.width,
+            child: Row(children: [
+              SizedBox(
+                width: size.width * 0.7,
+                child: Text(
+                  controller.bankSlipImage.value,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              controller.bankSlipImage.value.isNotEmpty
+                  ? SizedBox(
+                      width: 50,
+                      child: IconButton(
+                        onPressed: () => controller.setBankSlipImage(""),
+                        icon: Icon(
+                          FontAwesomeIcons.times,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  : SizedBox(height: 0, width: 0),
+            ]),
+          ),
         ),
       ],
     ),
@@ -388,6 +285,7 @@ class _FormWidgetState extends State<FormWidget> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController noteController = TextEditingController();
 
   @override
   void initState() {
@@ -397,6 +295,7 @@ class _FormWidgetState extends State<FormWidget> {
       emailController.text = list[1];
       phoneController.text = list[2];
       addressController.text = list[3];
+      noteController.text = list[4];
     }
     super.initState();
   }
@@ -436,11 +335,11 @@ class _FormWidgetState extends State<FormWidget> {
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
               child: TextFormField(
                 controller: emailController,
-                validator: (e) => e?.isEmpty == true
+                /*  validator: (e) => e?.isEmpty == true
                     ? "Email is required"
                     : e?.isEmail == true
                         ? null
-                        : "Invalid email",
+                        : "Invalid email", */
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Email',
@@ -472,6 +371,16 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              child: TextFormField(
+                controller: noteController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'မှတ်ချက်',
+                ),
+              ),
+            ),
             Container(
               width: double.infinity,
               height: 50,
@@ -487,8 +396,9 @@ class _FormWidgetState extends State<FormWidget> {
                           email: emailController.text,
                           phone: phoneController.text,
                           address: addressController.text,
+                          note: noteController.text,
                         )
-                        .then((value) => controller.changeStepIndex(1));
+                        .then((value) => controller.changeStepIndex(2));
                     //Store into UserOrderData
 
                     /*Get.back();
@@ -497,7 +407,7 @@ class _FormWidgetState extends State<FormWidget> {
                   }
                 },
                 child: Text(
-                  'သိမ်းထားမည်',
+                  'ရှေ့ဆက်ရန်',
                   style: TextStyle(fontSize: 16),
                 ),
               ),

@@ -206,34 +206,35 @@ class SearchPage extends GetView<SearchController> {
                                 ),
                                 //Name
                                 Expanded(
-                                  flex: 1,
+                                  flex: 2,
                                   child: Text(
                                     book.title,
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
+                                    maxLines: 1,
                                     style: GoogleFonts.catamaran(
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
+                                /* const SizedBox(
                                   height: 5,
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: Text(
-                                    "${book.price} MMK",
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: GoogleFonts.catamaran(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  child: */
+                                Text(
+                                  "${book.price} MMK",
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: GoogleFonts.catamaran(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                /* ), */
                               ],
                             ),
                           ),

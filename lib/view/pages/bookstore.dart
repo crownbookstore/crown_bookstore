@@ -5,9 +5,12 @@ import 'package:bookstore/view/pages/author_page.dart';
 import 'package:bookstore/view/pages/cart_page.dart';
 import 'package:bookstore/view/pages/category_page.dart';
 import 'package:bookstore/view/pages/home_page.dart';
+import 'package:bookstore/view/pages/new_checkout_page.dart';
 import 'package:bookstore/view/pages/order_history_page.dart';
+import 'package:bookstore/view/widgets/cart/my_gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:bookstore/data.dart';
 import 'package:bookstore/constants.dart';
@@ -26,26 +29,166 @@ class Bookstore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.find();
     final DataController dataController = Get.find();
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 56,
+            ),
+            //AppIcon
+            Center(
+              child: CircleAvatar(
+                radius: 80,
+                backgroundColor: kPrimaryColor,
+                child: CircleAvatar(
+                  radius: 79,
+                  backgroundColor: Colors.white,
+                  child: Image.asset(
+                    AppIcon.logo,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() {
+              final userData = cartController.userOrderData;
+              return userData.isEmpty
+                  ? const SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //Name
+                          Center(
+                            child: Text(
+                              userData[0],
+                              style: GoogleFonts.catamaran(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          //Phone
+                          DrawerItem(
+                            label: "📞 Phone:",
+                            text: userData[2],
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          //Address
+                          DrawerItem(
+                            label: "🪩 Address:",
+                            text: userData[3],
+                          ),
+                        ],
+                      ),
+                    );
+            }),
+            const SizedBox(
+              height: 15,
+            ),
+            //Contact Us
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "📒 Contact Us: ",
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            //FBlink
+            ContactItem(
+              text: "Facebook",
+              icon: FontAwesomeIcons.facebook,
+              color: Colors.blue,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            //MessengerLink
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: MyElevatedButton(
+                gradient: LinearGradient(
+                    colors: [Color(0xFF4070FF), Color(0xFFE94B9C)]),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                height: 35,
+                onPressed: () {},
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.facebookMessenger,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Messenger",
+                      style: GoogleFonts.catamaran(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Icon(
+                      FontAwesomeIcons.chevronRight,
+                      color: Colors.white,
+                      size: 12,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            //Viberlink
+            ContactItem(
+              text: "+959420086031",
+              icon: FontAwesomeIcons.viber,
+              color: Color(0xFF7C65F3),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         brightness: Brightness.light,
-        /* leading:  Icon(
-          Icons.sort,
-          color: kPrimaryColor,
-          size: 28,
-        )
-        , */
+        leading: DrawerIconWidget(),
         title: Text(
           "CROWN",
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.catamaran(
+            fontWeight: FontWeight.w900,
+            fontSize: 25,
+            height: 1,
             color: kPrimaryColor,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 3,
-            fontSize: 20,
           ),
         ),
         actions: [
@@ -57,7 +200,7 @@ class Bookstore extends StatelessWidget {
               onTap: () => Get.toNamed(searchPage),
               child: Icon(
                 Icons.search,
-                color: Colors.grey[400],
+                color: kPrimaryColor,
                 size: 28,
               ),
             ),
@@ -151,6 +294,112 @@ class Bookstore extends StatelessWidget {
   }
 }
 
+class ContactItem extends StatelessWidget {
+  final Color color;
+  final String text;
+  final IconData icon;
+  const ContactItem({
+    Key? key,
+    required this.color,
+    required this.text,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Text(
+              text,
+              style: GoogleFonts.catamaran(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Expanded(child: Container()),
+            Icon(
+              FontAwesomeIcons.chevronRight,
+              color: Colors.white,
+              size: 12,
+            ),
+          ],
+        ),
+      ).withColor(color),
+    );
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  final String label;
+  final String text;
+  const DrawerItem({
+    Key? key,
+    required this.label,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.inter(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 40,
+            top: 5,
+          ),
+          child: Text(
+            text,
+            style: GoogleFonts.catamaran(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DrawerIconWidget extends StatelessWidget {
+  const DrawerIconWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Scaffold.of(context).openDrawer();
+      },
+      icon: Icon(
+        Icons.sort,
+        color: kPrimaryColor,
+        size: 28,
+      ),
+    );
+  }
+}
+
 Widget stackBuildNavigationItem(
     {required NavigationItem item,
     required int index,
@@ -194,4 +443,14 @@ Widget stackBuildNavigationItem(
       ),
     ),
   );
+}
+
+extension WidgetExtension on ElevatedButton {
+  Widget withColor(Color color) {
+    return ElevatedButtonTheme(
+      data: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(backgroundColor: color)),
+      child: this,
+    );
+  }
 }

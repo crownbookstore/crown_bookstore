@@ -50,12 +50,16 @@ class CategoryDetailPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    category.name,
-                    style: GoogleFonts.catamaran(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 40,
-                      height: 1,
+                  Expanded(
+                    child: Text(
+                      category.name,
+                      style: GoogleFonts.catamaran(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 20,
+                        height: 1,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -94,8 +98,9 @@ class CategoryDetailPage extends StatelessWidget {
                                     //Image
                                     Expanded(
                                         flex: 12,
-                                        child: Container(
-                                          decoration: BoxDecoration(
+                                        child: Card(
+                                          elevation: 5,
+                                          /* decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
@@ -105,7 +110,7 @@ class CategoryDetailPage extends StatelessWidget {
                                                 offset: Offset(0, 3),
                                               ),
                                             ],
-                                          ),
+                                          ), */
                                           child: CachedNetworkImage(
                                             progressIndicatorBuilder:
                                                 (context, url, status) {
@@ -150,33 +155,34 @@ class CategoryDetailPage extends StatelessWidget {
                                     ),
                                     //Name
                                     Expanded(
-                                      flex: 1,
+                                      flex: 2,
                                       child: Text(
                                         book.title,
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                         style: GoogleFonts.catamaran(
                                           fontSize: 14,
                                           fontWeight: FontWeight.normal,
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
+                                    /* const SizedBox(
                                       height: 5,
-                                    ),
-                                    Expanded(
+                                    ), */
+                                    /* Expanded(
                                       flex: 1,
-                                      child: Text(
-                                        "${book.price} MMK",
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: GoogleFonts.catamaran(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      child: */
+                                    Text(
+                                      "${book.price} MMK",
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.catamaran(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      /*  ), */
                                     ),
                                   ],
                                 ),
