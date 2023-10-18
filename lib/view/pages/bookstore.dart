@@ -1,6 +1,7 @@
 import 'package:bookstore/controller/cart_controller.dart';
 import 'package:bookstore/controller/data_controller.dart';
 import 'package:bookstore/router/route_name.dart';
+import 'package:bookstore/utils/fun.dart';
 import 'package:bookstore/view/pages/author_page.dart';
 import 'package:bookstore/view/pages/cart_page.dart';
 import 'package:bookstore/view/pages/category_page.dart';
@@ -121,6 +122,7 @@ class Bookstore extends StatelessWidget {
             ),
             //FBlink
             ContactItem(
+              onPressed: () => launchSocialApp(facebookBaseUrl),
               text: "Facebook",
               icon: FontAwesomeIcons.facebook,
               color: Colors.blue,
@@ -136,7 +138,7 @@ class Bookstore extends StatelessWidget {
                     colors: [Color(0xFF4070FF), Color(0xFFE94B9C)]),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 height: 35,
-                onPressed: () {},
+                onPressed: () => launchSocialApp(messengerBaseUrl),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -169,6 +171,7 @@ class Bookstore extends StatelessWidget {
             ),
             //Viberlink
             ContactItem(
+              onPressed: () => launchSocialApp(viberBaseUrl),
               text: "+959420086031",
               icon: FontAwesomeIcons.viber,
               color: Color(0xFF7C65F3),
@@ -298,8 +301,10 @@ class ContactItem extends StatelessWidget {
   final Color color;
   final String text;
   final IconData icon;
+  final void Function()? onPressed;
   const ContactItem({
     Key? key,
+    required this.onPressed,
     required this.color,
     required this.text,
     required this.icon,
@@ -310,7 +315,7 @@ class ContactItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

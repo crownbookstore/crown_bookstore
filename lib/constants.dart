@@ -169,4 +169,6 @@ enum SearchingType {
 }
 
 const String messengerBaseUrl = "fb-messenger://user/121530935902385";
-   /*  "https://www.facebook.com/messages/t/121530935902385"; */
+/*  "https://www.facebook.com/messages/t/121530935902385"; */
+const String facebookBaseUrl = "fb://profile/100064031047636";
+const String viberBaseUrl = "viber://add?number=+959420086031";

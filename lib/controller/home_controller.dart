@@ -38,16 +38,18 @@ class HomeController extends GetxController {
   }
 
   Future<void> getCategories() async {
-    final snapshot =
-        await FirebaseReference.categoryCollection.orderBy("name").get();
+    final snapshot = await FirebaseReference.categoryCollection
+        .orderBy("dateTime", descending: true)
+        .get();
     categories.value = snapshot.docs.map((e) => e.data()).toList();
     activeCategories.value = categories.where((e) => e.active).toList();
     selectedCategoryID.value = activeCategories.first.id;
   }
 
   Future<void> getBooks() async {
-    final snapshot =
-        await FirebaseReference.bookCollection.orderBy("title").get();
+    final snapshot = await FirebaseReference.bookCollection
+        .orderBy("dateTime", descending: true)
+        .get();
     books.value = snapshot.docs.map((e) => e.data()).toList();
 
     selectedCategoryBooks.value =
@@ -55,8 +57,9 @@ class HomeController extends GetxController {
   }
 
   Future<void> getAuthors() async {
-    final snapshot =
-        await FirebaseReference.authorCollection.orderBy("fullname").get();
+    final snapshot = await FirebaseReference.authorCollection
+        .orderBy("dateTime", descending: true)
+        .get();
     authors.value = snapshot.docs.map((e) => e.data()).toList();
     activeAuthors.value = authors.where((e) => e.active).toList();
   }
