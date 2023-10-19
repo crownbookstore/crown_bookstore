@@ -270,8 +270,11 @@ Widget buildBook(Book book, int index, double width) {
             ),
             /*  ), */
           ),
-          Expanded(
+          /* Expanded(
             flex: 2,
+            child: */
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 0),
             child: Text(
               book.title,
               maxLines: 1,
@@ -282,8 +285,12 @@ Widget buildBook(Book book, int index, double width) {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
+          /* ), */
+          /* Expanded(
+            flex: 1,
+            child:  */
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
             child: Text(
               book.authorName ?? "",
               maxLines: 1,
@@ -295,6 +302,7 @@ Widget buildBook(Book book, int index, double width) {
               ),
             ),
           ),
+          /* ), */
         ],
       ),
     ),
