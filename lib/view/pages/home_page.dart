@@ -82,79 +82,91 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Container(
-            child: Obx(() {
-              final books = homeController.selectedCategoryBooks;
-              log("SelectedCategoryBooks:${books.length}");
-              return ListView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: List.generate(books.length,
-                    (index) => buildBook(books[index], index, width)),
-              );
-            }),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-            ),
-          ),
-          child: Column(
+          child: ListView(
             children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Authors",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => dataController.changeBottomNavIndex(2),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Show all",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            size: 18,
-                            color: kPrimaryColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 100,
-                margin: EdgeInsets.only(bottom: 16),
-                child: Obx(() {
-                  final authors = homeController.activeAuthors;
-                  return ListView(
+              //Books
+              Obx(() {
+                final books = homeController.selectedCategoryBooks;
+                log("SelectedCategoryBooks:${books.length}");
+                return AspectRatio(
+                  aspectRatio: 9 / 9,
+                  child: ListView(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    children: List.generate(authors.length,
-                        (index) => buildAuthor(authors[index], index)),
-                  );
-                }),
+                    children: List.generate(books.length,
+                        (index) => buildBook(books[index], index, width)),
+                  ),
+                );
+              }),
+              //Authors
+              AspectRatio(
+                aspectRatio: 16 / 10,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Authors",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () =>
+                                  dataController.changeBottomNavIndex(2),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Show all",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: kPrimaryColor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 18,
+                                    color: kPrimaryColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        margin: EdgeInsets.only(bottom: 16),
+                        child: Obx(() {
+                          final authors = homeController.activeAuthors;
+                          return ListView(
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(authors.length,
+                                (index) => buildAuthor(authors[index], index)),
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -206,6 +218,7 @@ Widget buildBook(Book book, int index, double width) {
     },
     child: Container(
       width: width * 0.48,
+      height: 200,
       /* color: Colors.red, */
       margin: EdgeInsets.only(right: 10, left: index == 0 ? 16 : 0, bottom: 8),
       child: Column(
@@ -270,7 +283,7 @@ Widget buildBook(Book book, int index, double width) {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Text(
               book.authorName ?? "",
               maxLines: 1,

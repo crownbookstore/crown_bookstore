@@ -32,7 +32,7 @@ hideSaving() {
   Get.back();
 }
 
-showSaving() async {
+showSaving(String label) async {
   await Get.dialog(
     Container(
       child: Stack(
@@ -41,7 +41,7 @@ showSaving() async {
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Saving....",
+                child: Text(label,
                     style: TextStyle(
                       color: Colors.black,
                     )),

@@ -17,6 +17,8 @@ import 'package:bookstore/data.dart';
 import 'package:bookstore/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/home_controller.dart';
+
 List<Widget> pages = [
   HomePage(),
   CategoryPage(),
@@ -25,8 +27,19 @@ List<Widget> pages = [
   OrderHistory(),
 ];
 
-class Bookstore extends StatelessWidget {
+class Bookstore extends StatefulWidget {
   const Bookstore({Key? key}) : super(key: key);
+
+  @override
+  State<Bookstore> createState() => _BookstoreState();
+}
+
+class _BookstoreState extends State<Bookstore> {
+  @override
+  void initState() {
+    Get.put(HomeController());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

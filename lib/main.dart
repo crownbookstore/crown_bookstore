@@ -6,6 +6,7 @@ import 'package:bookstore/router/route_name.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,9 +22,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp().then((value) =>
-      FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler));
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Hive.initFlutter();
   Hive.registerAdapter<HiveBook>(HiveBookAdapter());
   await Hive.openBox<HiveBook>(boxName);
@@ -36,7 +38,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(DataController());
-    Get.put(HomeController());
     Get.put(CartController());
     return GetMaterialApp(
       title: 'Flutter Demo',
