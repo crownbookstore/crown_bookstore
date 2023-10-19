@@ -89,9 +89,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   state: StepState.indexed,
                   title: const Text("အတည်ပြု"),
                   content:
-                      controller.paymentOptions.value == PaymentOptions.PrePay
+                      /* controller.paymentOptions.value == PaymentOptions.PrePay
                           ? prePayWidget(context)
-                          : const SizedBox(height: 0, width: 0),
+                          :  */
+                      const SizedBox(height: 0, width: 0),
                 ),
               ],
             ),

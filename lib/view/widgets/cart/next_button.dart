@@ -22,7 +22,8 @@ Widget nextButton() {
         if (controller.paymentOptions != PaymentOptions.None) {
           //Go To CheckOut Screen
           Navigator.of(Get.context!).pop();
-          Get.to(() => const CheckOutScreen());
+/*           Get.to(() => const CheckOutScreen());
+ */
         }
       },
       child: Text("OK", style: TextStyle(color: Colors.white, fontSize: 16)),

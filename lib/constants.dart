@@ -52,8 +52,8 @@ const List<String> statusList = [
 ];
 
 enum PaymentOptions {
-  CashOnDelivery,
-  PrePay,
+  deliveryHome,
+  pushGate,
   None,
 }
 

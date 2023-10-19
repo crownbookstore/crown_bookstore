@@ -16,18 +16,18 @@ class PaymentOptionContent extends StatelessWidget {
         children: [
           CustomCheckBox(
             height: 50,
-            options: PaymentOptions.CashOnDelivery,
+            options: PaymentOptions.deliveryHome,
             icon: FontAwesomeIcons.truck,
             iconColor: kPrimaryColor,
-            text: "ပစ္စည်း ရောက်မှ ငွေချေမယ်",
+            text: "အိမ်အရောက်ပို့",
           ),
           SizedBox(height: 5),
           CustomCheckBox(
             height: 50,
-            options: PaymentOptions.PrePay,
+            options: PaymentOptions.pushGate,
             icon: FontAwesomeIcons.moneyBill,
             iconColor: kPrimaryColor,
-            text: "ငွေကြိုလွှဲမယ်",
+            text: "ဂိတ်တင်",
           ),
         ],
       ),

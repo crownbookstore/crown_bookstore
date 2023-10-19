@@ -13,6 +13,8 @@ import '../constants.dart';
 import '../model/hive_purchase.dart';
 import '../model/purchase.dart';
 import '../utils/show_loading.dart';
+import '../view/widgets/cart/next_button.dart';
+import '../view/widgets/cart/payment_options.dart';
 
 class CartController extends GetxController {
   final GlobalKey<FormState> form = GlobalKey();
@@ -22,7 +24,7 @@ class CartController extends GetxController {
   var firstTimePressedCart = false.obs;
   var bankSlipImage = "".obs;
   var checkOutStep = 1.obs;
-  var paymentOptionStep = 1.obs;
+  var paymentOptionStep = 0.obs;
   var paymentOptions = PaymentOptions.None.obs;
   var paymentMethod = PaymentMethod.cashOnDelivery.obs;
   int mouseIndex = -1; //Mouse Region
@@ -148,10 +150,28 @@ class CartController extends GetxController {
 
   void changePaymentOptions(PaymentOptions option) {
     paymentOptions.value = option;
+    paymentOptionStep.value = 0;
+    if (option == PaymentOptions.pushGate) {
+      paymentOptionStep.value = 3;
+    } else {
+      paymentOptionStep.value = 1;
+    }
   }
 
   //Change Step Index
   void changeStepIndex(int value) {
+    if (value == 2) {
+      //Need to choose payment options
+      Get.defaultDialog(
+        backgroundColor: Colors.white70,
+        titlePadding: EdgeInsets.all(8),
+        contentPadding: EdgeInsets.all(0),
+        title: "ရွေးချယ်ရန်",
+        content: const PaymentOptionContent(),
+        barrierDismissible: false,
+        confirm: nextButton(),
+      );
+    }
     checkOutStep.value = value;
   }
 
@@ -295,7 +315,7 @@ class CartController extends GetxController {
     paymentOptions = PaymentOptions.None.obs;
     bankSlipImage = "".obs;
     checkOutStep.value = 1;
-    paymentOptionStep.value = 1;
+    paymentOptionStep.value = 0;
     firstTimePressedCart = false.obs;
   }
 }

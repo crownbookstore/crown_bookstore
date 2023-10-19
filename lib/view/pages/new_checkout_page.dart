@@ -9,7 +9,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants.dart';
+import '../../utils/fun.dart';
 import '../widgets/cart/division_dialog.dart';
+import '../widgets/cart/my_gradient_button.dart';
+import 'bookstore.dart';
 
 class NewCheckoutPage extends StatelessWidget {
   const NewCheckoutPage({Key? key}) : super(key: key);
@@ -107,6 +110,42 @@ class NewCheckoutPage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: Obx(() {
+        final paymentStep = cartController.paymentOptionStep.value;
+        final checkOutStep = cartController.checkOutStep.value;
+        if (paymentStep == 2 && checkOutStep == 2) {
+          return Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonWidget(
+                  cartController: cartController,
+                  title: 'နောက်သို့',
+                  onPressed: () {
+                    cartController.changeStepIndex(1);
+                  },
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                ButtonWidget(
+                  cartController: cartController,
+                  title: 'ရှေ့ဆက်ရန်',
+                  onPressed: () {
+                    if (cartController.checkToAcceptOrder() &&
+                        cartController.checkToAcceptPrepay()) {
+                      cartController.changeStepIndex(3);
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      }),
     );
   }
 }
@@ -224,23 +263,32 @@ class PaymentWidget extends StatelessWidget {
     return Column(
       children: [
         //Options Payment
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            PaymentOptionItem(
-              title: "အိမ်အရောက်ငွေချေ",
-              index: 1,
-            ),
-            PaymentOptionItem(
-              title: "ငွေကြိုလွဲ",
-              index: 2,
-            ),
-            PaymentOptionItem(
-              title: "ဂိတ်တင်",
-              index: 3,
-            ),
-          ],
-        ),
+        Obx(() {
+          final paymentOptions = cartController.paymentOptions.value;
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              paymentOptions == PaymentOptions.deliveryHome
+                  ? PaymentOptionItem(
+                      title: "အိမ်အရောက်ငွေချေ",
+                      index: 1,
+                    )
+                  : const SizedBox(),
+              paymentOptions == PaymentOptions.deliveryHome
+                  ? PaymentOptionItem(
+                      title: "ငွေကြိုလွဲ",
+                      index: 2,
+                    )
+                  : const SizedBox(),
+              /* paymentOptions == PaymentOptions.pushGate
+                  ? PaymentOptionItem(
+                      title: "ဂိတ်တင်",
+                      index: 3,
+                    )
+                  : const SizedBox(), */
+            ],
+          );
+        }),
         //Body
         Expanded(child: Obx(() {
           final currentPaymentIndex = cartController.paymentOptionStep.value;
@@ -284,26 +332,52 @@ class PushGateWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: 10, right: 10),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "ဂိတ်တင်အတွက် Messengerသို့သွားရန် >",
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: MyElevatedButton(
+                gradient: LinearGradient(
+                    colors: [Color(0xFF4070FF), Color(0xFFE94B9C)]),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                height: 35,
+                onPressed: () => launchSocialApp(messengerBaseUrl),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.facebookMessenger,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Messenger",
+                      style: GoogleFonts.catamaran(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Icon(
+                      FontAwesomeIcons.chevronRight,
+                      color: Colors.white,
+                      size: 12,
+                    ),
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {
-                    cartController.launchMessenger();
-                  },
-                  icon: Icon(
-                    FontAwesomeIcons.facebookMessenger,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
+              ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text("(သို့မဟုတ်)"),
+            ContactItem(
+              onPressed: () => launchSocialApp(viberBaseUrl),
+              text: "+959420086031",
+              icon: FontAwesomeIcons.viber,
+              color: Color(0xFF7C65F3),
+            ),
+            Text("သို့ဆက်သွယ်ပေးပါ။"),
             const SizedBox(
               height: 25,
             ),
@@ -433,6 +507,17 @@ class CashOnDeliveryWidget extends StatelessWidget {
               ),
             );
           }),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Text(
+              "ပို့ခစျေးမှာ 5kgအတွက်သာဖြစ်ပါသည်",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
           //Total
           Container(
             width: double.infinity,
@@ -782,6 +867,20 @@ class PrepayWidget extends StatelessWidget {
                 ),
               );
             }),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Text(
+                  "ပို့ခစျေးမှာ 5kgအတွက်သာဖြစ်ပါသည်",
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+            ),
             //Total
             Container(
               width: double.infinity,
@@ -818,7 +917,7 @@ class PrepayWidget extends StatelessWidget {
               ),
             ),
             //Continue
-
+/* 
             Padding(
               padding: const EdgeInsets.only(top: 25),
               child: Row(
@@ -847,6 +946,7 @@ class PrepayWidget extends StatelessWidget {
                 ],
               ),
             ),
+           */
           ],
         ),
       ),
