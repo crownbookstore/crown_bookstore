@@ -1,6 +1,5 @@
 import 'package:bookstore/controller/cart_controller.dart';
 import 'package:bookstore/controller/data_controller.dart';
-import 'package:bookstore/controller/home_controller.dart';
 import 'package:bookstore/model/hive_book.dart';
 import 'package:bookstore/router/route_name.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +25,16 @@ Future<void> main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
   await Hive.initFlutter();
   Hive.registerAdapter<HiveBook>(HiveBookAdapter());
   await Hive.openBox<HiveBook>(boxName);
