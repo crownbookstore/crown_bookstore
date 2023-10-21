@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../constants.dart';
@@ -64,7 +65,10 @@ class CategoryPage extends StatelessWidget {
                   ? GridView.builder(
                       itemCount: categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                        crossAxisCount:
+                            ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                                ? 2
+                                : 3,
                         childAspectRatio: 10 / 14,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 10,

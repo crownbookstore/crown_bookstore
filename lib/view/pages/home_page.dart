@@ -8,6 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../constants.dart';
@@ -89,12 +90,17 @@ class HomePage extends StatelessWidget {
                 final books = homeController.selectedCategoryBooks;
                 log("SelectedCategoryBooks:${books.length}");
                 return AspectRatio(
-                  aspectRatio: 9 / 9,
+                  aspectRatio:
+                      ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                          ? 9 / 9
+                          : 16 / 9,
                   child: ListView(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    children: List.generate(books.length,
-                        (index) => buildBook(books[index], index, width)),
+                    children: List.generate(
+                        books.length,
+                        (index) =>
+                            buildBook(context, books[index], index, width)),
                   ),
                 );
               }),
@@ -109,6 +115,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: EdgeInsets.all(16),
@@ -211,15 +218,16 @@ Widget buildFilter({
   );
 }
 
-Widget buildBook(Book book, int index, double width) {
+Widget buildBook(BuildContext context, Book book, int index, double width) {
   return GestureDetector(
     onTap: () {
       Get.toNamed(bookDetailPage, arguments: {"book": book});
     },
     child: Container(
-      width: width * 0.48,
+      width: ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+          ? width * 0.48
+          : width * 0.4,
       height: 200,
-      /* color: Colors.red, */
       margin: EdgeInsets.only(right: 10, left: index == 0 ? 16 : 0, bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

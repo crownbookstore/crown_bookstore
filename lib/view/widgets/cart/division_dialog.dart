@@ -30,8 +30,8 @@ Widget divisionDialogWidget() {
               shrinkWrap: true,
               itemCount: homeController.divisions.length,
               itemBuilder: (context, divisionIndex) {
-                return MouseRegion(
-                  onHover: (event) {
+                return InkWell(
+                  onTap: () {
                     controller.changeMouseIndex(divisionIndex);
                     showDialog(
                       context: context,
@@ -41,10 +41,6 @@ Widget divisionDialogWidget() {
                             division: homeController.divisions[divisionIndex]);
                       },
                     );
-                  },
-                  onExit: (event) {
-                    controller.changeMouseIndex(0);
-                    Navigator.of(context).pop();
                   },
                   child: AnimatedContainer(
                     color: controller.mouseIndex == divisionIndex

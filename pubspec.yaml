@@ -46,6 +46,7 @@ dependencies:
   change_app_package_name: ^1.1.0
   url_launcher: ^6.1.10
   flutter_rating_bar: ^4.0.1
+  responsive_framework: ^0.1.5
 
 dev_dependencies:
   flutter_test:

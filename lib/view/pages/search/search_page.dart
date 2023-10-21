@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../router/route_name.dart';
@@ -134,7 +135,10 @@ class SearchPage extends GetView<SearchController> {
                     return GridView.builder(
                       itemCount: books.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                        crossAxisCount:
+                            ResponsiveWrapper.of(context).isSmallerThan(DESKTOP)
+                                ? 2
+                                : 3,
                         childAspectRatio: 0.6,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 15,
@@ -205,19 +209,20 @@ class SearchPage extends GetView<SearchController> {
                                   height: 5,
                                 ),
                                 //Name
-                                Expanded(
+                                /* Expanded(
                                   flex: 2,
-                                  child: Text(
-                                    book.title,
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: GoogleFonts.catamaran(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                  child: */
+                                Text(
+                                  book.title,
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: GoogleFonts.catamaran(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
+                                /* ), */
                                 /* const SizedBox(
                                   height: 5,
                                 ),
